@@ -21,6 +21,10 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </project.properties>
 
+    <modules>
+        <module>catalog-service</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
