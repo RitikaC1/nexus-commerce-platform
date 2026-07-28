@@ -40,6 +40,17 @@ services:
     networks:
       - nexus-network
 
+  kafka-init:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: nexus-kafka-init
+    depends_on:
+      - kafka
+    volumes:
+      - ./init-kafka.sh:/init-kafka.sh
+    entrypoint: [ "/bin/sh", "-c", "chmod +x /init-kafka.sh && /init-kafka.sh" ]
+    networks:
+      - nexus-network
+
 networks:
   nexus-network:
     driver: bridge

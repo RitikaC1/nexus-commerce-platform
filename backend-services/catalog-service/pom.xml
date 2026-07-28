@@ -11,9 +11,9 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>catalog-service</artifactId>
-    <name>catalog-service</name>
-    <description>Nexus Product Catalog Microservice</description>
+    <artifactId>order-service</artifactId>
+    <name>order-service</name>
+    <description>Nexus Order Processing Microservice</description>
 
     <dependencies>
         <!-- Web & REST API Core -->
@@ -32,6 +32,7 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        
         <!-- Database Migration -->
         <dependency>
             <groupId>org.flywaydb</groupId>
