@@ -11,18 +11,23 @@ import java.util.List;
 public class OrderController {
 
     private final OrderRepository orderRepository;
+    private final OrderEventProducer orderEventProducer;
 
-    public OrderController(OrderRepository orderRepository) {
+    public OrderController(OrderRepository orderRepository, OrderEventProducer orderEventProducer) {
         this.orderRepository = orderRepository;
+        this.orderEventProducer = orderEventProducer;
     }
 
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        // Synchronize bidirectional relationship before persisting
         if (order.getItems() != null) {
             order.getItems().forEach(item -> item.setOrder(order));
         }
         Order savedOrder = orderRepository.save(order);
+
+        // Asynchronously publish event to Kafka for downstream consumers (AI Agents / Analytics)
+        orderEventProducer.publishOrderCreatedEvent(savedOrder);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);
     }
 
