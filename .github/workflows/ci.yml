@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  # --- Stage 1: Build & Test Java Spring Boot Services ---
+  # --- Stage 1: Build Java Spring Boot Services ---
   build-java-services:
     name: Build Java Microservices
     runs-on: ubuntu-latest
@@ -25,12 +25,12 @@ jobs:
 
       - name: Build Catalog Service
         run: |
-          cd catalog-service
+          cd backend-services/catalog-service
           mvn clean compile test-compile -B
 
       - name: Build Order Service
         run: |
-          cd order-service
+          cd backend-services/order-service
           mvn clean compile test-compile -B
 
   # --- Stage 2: Validate Python AI Agent Service ---
@@ -54,7 +54,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Validate Python Syntax & Imports
+      - name: Validate Python Syntax
         run: |
           cd ai-agents
           python -m py_compile main.py consumer.py recommender.py
