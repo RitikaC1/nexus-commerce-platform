@@ -23,14 +23,9 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build Catalog Service
+      - name: Build All Microservices from Parent POM
         run: |
-          cd backend-services/catalog-service
-          mvn clean compile test-compile -B
-
-      - name: Build Order Service
-        run: |
-          cd backend-services/order-service
+          cd backend-services
           mvn clean compile test-compile -B
 
   # --- Stage 2: Validate Python AI Agent Service ---
@@ -68,12 +63,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js 20
+      - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: 'frontend/package-lock.json'
 
       - name: Install Frontend Dependencies
         run: |
