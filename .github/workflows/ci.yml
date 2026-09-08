@@ -1,3 +1,92 @@
+# name: Nexus Commerce CI Pipeline
+
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+
+# jobs:
+#   # --- Stage 1: Build Java Spring Boot Services ---
+#   build-java-services:
+#     name: Build Java Microservices
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
+
+#       - name: Set up JDK 17
+#         uses: actions/setup-java@v4
+#         with:
+#           java-version: '17'
+#           distribution: 'temurin'
+#           cache: 'maven'
+
+#       - name: Build All Microservices from Parent POM
+#         run: |
+#           cd backend-services
+#           mvn clean compile test-compile -B
+
+#   # --- Stage 2: Validate Python AI Agent Service ---
+#   test-python-agents:
+#     name: Test Python AI Agents
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
+
+#       - name: Set up Python 3.11
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: '3.11'
+#           cache: 'pip'
+
+#       - name: Install Dependencies
+#         run: |
+#           cd ai-agents
+#           python -m pip install --upgrade pip
+#           pip install -r requirements.txt
+
+#       - name: Validate Python Syntax
+#         run: |
+#           cd ai-agents
+#           python -m py_compile main.py consumer.py recommender.py
+
+#   # --- Stage 3: Build Next.js Frontend ---
+#   build-frontend:
+#     name: Build Next.js Frontend
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Code
+#         uses: actions/checkout@v4
+
+#       - name: Set up Node.js 22
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '22'
+#           cache: 'npm'
+#           cache-dependency-path: 'frontend/package-lock.json'
+
+#       - name: Install Frontend Dependencies
+#         run: |
+#           cd frontend
+#           npm ci
+
+#       - name: Build Next.js Application
+#         run: |
+#           cd frontend
+#           npm run build
+#         env:
+#           NEXT_PUBLIC_CATALOG_API: http://localhost:8081/api/v1
+#           NEXT_PUBLIC_ORDER_API: http://localhost:8082/api/v1
+
+
+
+
+
 name: Nexus Commerce CI Pipeline
 
 on:
@@ -24,9 +113,7 @@ jobs:
           cache: 'maven'
 
       - name: Build All Microservices from Parent POM
-        run: |
-          cd backend-services
-          mvn clean compile test-compile -B
+        run: mvn clean compile test-compile -B -f backend-services/pom.xml
 
   # --- Stage 2: Validate Python AI Agent Service ---
   test-python-agents:
@@ -73,7 +160,7 @@ jobs:
       - name: Install Frontend Dependencies
         run: |
           cd frontend
-          npm ci
+          npm i
 
       - name: Build Next.js Application
         run: |
