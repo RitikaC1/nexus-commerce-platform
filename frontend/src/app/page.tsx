@@ -5,7 +5,8 @@ import { PackageSearch, RefreshCw } from "lucide-react";
 export const revalidate = 0; // Disable static caching for real-time catalog updates
 
 export default async function HomePage() {
-  let products = [];
+  /*let products = [];*/
+  let products: any[] = [];
   let error = null;
 
   try {
